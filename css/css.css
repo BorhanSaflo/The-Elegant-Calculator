@@ -1,13 +1,22 @@
 body {
     margin: 0px;
     padding: 1rem;
-    background-color: #474747;
+    background-color: #22272F;
 }
 
 h1 {
     font-family: Arial, Helvetica, sans-serif;
     color: white;
     text-align: center;
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+    cursor: default;
 }
 
 span {
@@ -33,7 +42,7 @@ span {
     max-width: 400px;
     margin: 10px auto;
     padding: 15px 20px;
-    background-color: crimson;
+    background-color: #aa0d2a;
     border-radius: 25px;
 }
 
@@ -57,13 +66,46 @@ span {
     grid-template-columns: repeat(4, 1fr);
 }
 
+.firstRow {
+    max-width: 500px;
+    margin: 10px auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 3.33fr 1fr;
+}
+
+.lastRow {
+    max-width: 500px;
+    margin: 10px auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 2.2fr 1fr 1fr;
+}
+
 .button {
     padding: 1rem;
     height: 4rem;
     line-height: 4rem;
-    background-color: #606060;
+    background-color: #7a7979;
     text-align: center;
     border-radius: 10px;
+}
+
+.operationButton {
+    background-color: crimson;
+}
+
+.acButton {
+    background-color: #545454;
+}
+
+
+.operationButton:active {
+    background-color: #ed123a !important;
+}
+
+.acButton:active {
+    background-color: #494949 !important;
 }
 
 .button:active {

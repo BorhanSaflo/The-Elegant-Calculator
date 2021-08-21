@@ -13,28 +13,29 @@
     let numberButtonCheck = (btn) => {
         for (let i = 0; i < nonNumberButtons.length; i++) {
             if (btn === nonNumberButtons[i]) {
+                if (input !== "") {
+                    queue.push(parseFloat(input));
+                }
                 if (btn === "ac") {
                     calculator.ac();
-                } else if (btn === "equals") {
-                    queue.push(parseFloat(input));
+                } else if (btn === "equals" && queue.length > 2) {
                     if (typeof queue[queue.length - 1] !== "number") {
                         inputText.innerHTML = "Error";
                         input = ""
                     } else {
-                        queue.push(parseFloat(input));
                         let result = solveQueue();
                         input = result;
                         calculator.print(result);
                     }
                 } else if (input !== "") {
-                    queue.push(parseFloat(input));
                     queue.push(String(btn));
                     input = "";
                 }
                 return false;
             }
         }
-        return true;
+        if (input === "" && btn === ".") { return false; }
+        else { return true; }
     }
 
     function getAllIndexes(array, value) {
@@ -61,25 +62,25 @@
     }
 
     let calculator = {
-        divide: function(x, y) {
+        divide: function (x, y) {
             return (x / y);
         },
-        multiply: function(x, y) {
+        multiply: function (x, y) {
             return (x * y);
         },
-        add: function(x, y) {
+        add: function (x, y) {
             return (x + y);
         },
-        minus: function(x, y) {
+        minus: function (x, y) {
             return (x - y);
         },
-        ac: function() {
+        ac: function () {
             input = "";
             input1 = "";
             queue = [];
             inputText.innerHTML = "0";
         },
-        print: function(number) {
+        print: function (number) {
             queue = [];
             inputText.innerHTML = number;
         }
@@ -89,8 +90,11 @@
         let btnId = buttons[i].id;
         buttons[i].onclick = run => {
             if (numberButtonCheck(btnId)) {
-                input += buttons[i].id;
-                inputText.innerHTML = input;
+                if (btnId === "0" && input === "") {}
+                else {
+                    input += buttons[i].id;
+                    inputText.innerHTML = input;
+                }
             }
         }
     }
