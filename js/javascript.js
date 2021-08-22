@@ -3,8 +3,9 @@
     let inputText = document.getElementById("input");
 
     let input = "";
-    let nonNumberButtons = ["add", "minus", "multiply", "divide", "ac", "equals"];
     let operations = ["divide", "multiply", "add", "minus"];
+    let nonNumberButtons = ["add", "minus", "multiply", "divide", "equals", "ac"];
+    let numpadOperations = ["NumpadAdd", "NumpadSubtract", "NumpadMultiply", "NumpadDivide", "NumpadEnter"];
     let queue = [];
     let clear = () => {
         inputText.innerHTML = "0";
@@ -16,6 +17,7 @@
                 if (input !== "") {
                     queue.push(parseFloat(input));
                 }
+
                 if (btn === "ac") {
                     calculator.ac();
                 } else if (btn === "equals" && queue.length > 2) {
@@ -34,8 +36,7 @@
                 return false;
             }
         }
-        if (input === "" && btn === ".") { return false; }
-        else { return true; }
+        if (input === "" && btn === ".") { return false; } else { return true; }
     }
 
     function getAllIndexes(array, value) {
@@ -62,25 +63,25 @@
     }
 
     let calculator = {
-        divide: function (x, y) {
+        divide: function(x, y) {
             return (x / y);
         },
-        multiply: function (x, y) {
+        multiply: function(x, y) {
             return (x * y);
         },
-        add: function (x, y) {
+        add: function(x, y) {
             return (x + y);
         },
-        minus: function (x, y) {
+        minus: function(x, y) {
             return (x - y);
         },
-        ac: function () {
+        ac: function() {
             input = "";
             input1 = "";
             queue = [];
             inputText.innerHTML = "0";
         },
-        print: function (number) {
+        print: function(number) {
             queue = [];
             inputText.innerHTML = number;
         }
@@ -88,15 +89,58 @@
 
     for (let i = 0; i < buttons.length; i++) {
         let btnId = buttons[i].id;
-        buttons[i].onclick = run => {
+        buttons[i].onclick = () => {
             if (numberButtonCheck(btnId)) {
-                if (btnId === "0" && input === "") {}
-                else {
+                if (btnId === ".") {
+                    if ((String(input).split(".").length - 1) === 0) {
+                        input += buttons[i].id;
+                        inputText.innerHTML = input;
+                    }
+                } else if (btnId === "0" && input === "") {} else {
                     input += buttons[i].id;
                     inputText.innerHTML = input;
                 }
             }
         }
+
+        window.addEventListener("keydown", function(event) {
+            if (event.code === "Numpad" + btnId) {
+                document.getElementById(btnId).click();
+                document.getElementById(btnId).classList.add("active");
+            }
+
+            if (event.code === "NumpadDecimal") {
+                if (!document.getElementById(".").classList.contains("active")) {
+                    document.getElementById(".").click();
+                    document.getElementById(".").classList.add("active");
+                }
+            }
+
+            for (let i = 0; i < numpadOperations.length; i++) {
+                if (event.code === numpadOperations[i]) {
+                    if (!document.getElementById(nonNumberButtons[i]).classList.contains("operationButtonActive")) {
+                        document.getElementById(nonNumberButtons[i]).click();
+                        document.getElementById(nonNumberButtons[i]).classList.add("operationButtonActive");
+                    }
+                }
+            }
+        });
+
+        window.addEventListener("keyup", function(event) {
+            if (event.code === "Numpad" + btnId) {
+                document.getElementById(btnId).classList.remove("active");
+            }
+
+            if (event.code === "NumpadDecimal") {
+                document.getElementById(".").classList.remove("active");
+            }
+
+            for (let i = 0; i < numpadOperations.length; i++) {
+                if (event.code === numpadOperations[i]) {
+                    document.getElementById(nonNumberButtons[i]).classList.remove("operationButtonActive");
+                }
+            }
+        });
     }
 
 }

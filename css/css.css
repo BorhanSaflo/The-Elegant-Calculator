@@ -99,8 +99,11 @@ span {
     background-color: #545454;
 }
 
-
 .operationButton:active {
+    background-color: #ed123a !important;
+}
+
+.operationButtonActive {
     background-color: #ed123a !important;
 }
 
@@ -108,7 +111,16 @@ span {
     background-color: #494949 !important;
 }
 
+.acButtonActive {
+    background-color: #494949 !important;
+}
+
 .button:active {
+    transform: scale(0.98);
+    background-color: #6b6b6b;
+}
+
+.active {
     transform: scale(0.98);
     background-color: #6b6b6b;
 }
