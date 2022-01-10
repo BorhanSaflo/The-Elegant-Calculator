@@ -7,30 +7,64 @@
   --acButtonColor: #494949;
   --acButtonActiveColor: #3f3f3f;
   --calcBodyColor: #aa0d2a;
-  --textColor: white;
+  --textColor: #ffffff;
+}
+
+:root.orangeTheme {
+    --btnColor: #d6d6d6;
+    --btnActiveColor: #cecece;
+    --operationButton: #ffa500;
+    --operationActiveButton: #e79600;
+    --acButtonColor: #b6b6b6;
+    --acButtonActiveColor: #acacac;
+    --calcBodyColor: #d18800;
+    --textColor: #000000;
 }
 
 :root.yellowTheme {
-  --btnColor: #afafaf;
-  --btnActiveColor: #a1a1a1;
+    --btnColor: #cacaca;
+    --btnActiveColor: #c4c3c3;
   --operationButton: #ffff00;
   --operationActiveButton: #c91233;
-  --acButtonColor: #818181;
-  --acButtonActiveColor: #747474;
+  --acButtonColor: #b6b6b6;
+  --acButtonActiveColor: #acacac;
   --calcBodyColor: #e0e009;
   --textColor: #000000;
 }
 
 :root.greenTheme {
-    --btnColor: #afafaf;
-    --btnActiveColor: #a1a1a1;
+    --btnColor: #d6d6d6;
+    --btnActiveColor: #cecece;
     --operationButton: #00ff00;
     --operationActiveButton: #c91233;
-    --acButtonColor: #818181;
-    --acButtonActiveColor: #747474;
-    --calcBodyColor: #00cc00;
+    --acButtonColor: #aaaaaa;
+    --acButtonActiveColor: #9b9b9b;
+    --calcBodyColor: #00bb00;
     --textColor: #000000;
-  }
+}
+
+:root.blueTheme {
+    --btnColor: #6d6d6d;
+    --btnActiveColor: #606060;
+    --operationButton: #005ae2;
+    --operationActiveButton: #0058db;
+    --acButtonColor: #494949;
+    --acButtonActiveColor: #3f3f3f;
+    --calcBodyColor: #00398f;
+    --textColor: #ffffff;
+}
+
+:root.pinkTheme {
+    --btnColor: #d6d6d6;
+    --btnActiveColor: #cecece;
+    --operationButton: #ffc0cb;
+    --operationActiveButton: #d6a2aa;
+    --acButtonColor: #aaaaaa;
+    --acButtonActiveColor: #9b9b9b;
+    --calcBodyColor: #e696a4;
+    --textColor: #000000;
+}
+
 
 body {
     margin: 0px;
@@ -167,7 +201,7 @@ span {
 }
 
 .button:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
     background-color: var(--btnActiveColor);
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
@@ -198,6 +232,10 @@ span {
     background: linear-gradient(to right, #c91233 0%,#c91233 50%,#aa0d2a 51%,#aa0d2a 100%);
 }
 
+#orangeTheme {
+    background: linear-gradient(to right, #ffa500 0%,#ffa500 50%,#d18800 51%,#d18800 100%);
+}
+
 #yellowTheme {
     background: linear-gradient(to right, #ffff00 0%,#ffff00 50%,#e0e009 51%,#e0e009 100%);
 }
@@ -206,6 +244,14 @@ span {
     background: linear-gradient(to right, #00ff00 0%,#00ff00 50%,#00cc00 51%,#00cc00 100%);
 }
 
+#blueTheme {
+    background: linear-gradient(to right, #005ae2 0%,#005ae2 50%,#00398f 51%,#00398f 100%);
+}
+
+#pinkTheme {
+    background: linear-gradient(to right, #ffc0cb 0%,#ffc0cb 50%,#e696a4 51%,#e696a4 100%);
+}
+
 .activeTheme {
-    outline: 2px solid;
+    outline: 3px solid;
 }
