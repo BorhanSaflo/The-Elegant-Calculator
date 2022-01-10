@@ -1,23 +1,39 @@
-::-webkit-scrollbar {
-    height: 7px;
+:root,
+:root.redTheme {
+  --btnColor: #6d6d6d;
+  --btnActiveColor: #606060;
+  --operationButton: #dc143c;
+  --operationActiveButton: #c91233;
+  --acButtonColor: #494949;
+  --acButtonActiveColor: #3f3f3f;
+  --calcBodyColor: #aa0d2a;
+  --textColor: white;
+}
+
+:root.yellowTheme {
+  --btnColor: #afafaf;
+  --btnActiveColor: #a1a1a1;
+  --operationButton: #ffff00;
+  --operationActiveButton: #c91233;
+  --acButtonColor: #818181;
+  --acButtonActiveColor: #747474;
+  --calcBodyColor: #e0e009;
+  --textColor: #000000;
+}
+
+:root.greenTheme {
+    --btnColor: #afafaf;
+    --btnActiveColor: #a1a1a1;
+    --operationButton: #00ff00;
+    --operationActiveButton: #c91233;
+    --acButtonColor: #818181;
+    --acButtonActiveColor: #747474;
+    --calcBodyColor: #00cc00;
+    --textColor: #000000;
   }
-  
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 5px; 
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
-  
+
 body {
     margin: 0px;
-    padding: 1rem;
     background-color: #22272F;
 }
 
@@ -42,7 +58,7 @@ span {
     line-height: normal;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2rem;
-    color: white;
+    color: var(--textColor);
     -webkit-user-select: none;
     /* Safari */
     -moz-user-select: none;
@@ -59,8 +75,9 @@ span {
     max-width: 400px;
     margin: 10px auto;
     padding: 15px 20px;
-    background-color: #aa0d2a;
+    background-color: var(--calcBodyColor);
     border-radius: 25px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.4);
 }
 
 .inputContainer {
@@ -73,14 +90,30 @@ span {
     overflow-y: hidden;
     white-space: nowrap;
     direction: rtl;
-    color: white;
     text-align: right;
     padding: 5px 20px;
     font-size: 50px;
 }
 
+.inputContainer::-webkit-scrollbar {
+    height: 7px;
+}
+  
+.inputContainer::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+   
+.inputContainer::-webkit-scrollbar-thumb {
+    background: #888;
+}
+  
+.inputContainer::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 #input {
     direction: ltr;
+    color: #ffffff;
 }
 
 .firstRow {
@@ -111,30 +144,68 @@ span {
     padding: 1rem;
     height: 4rem;
     line-height: 4rem;
-    background-color: #6d6d6d;
+    background-color: var(--btnColor);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     border-radius: 10px;
 }
 
 .operationButton {
-    background-color: crimson;
+    background-color: var(--operationButton);
 }
 
 .acButton {
-    background-color: #494949;
+    background-color: var(--acButtonColor);
 }
 
 .operationButton:active {
-    background-color: #c91233 !important;
+    background-color: var(--operationActiveButton) !important;
 }
 
 .acButton:active {
-    background-color: #3f3f3f !important;
+    background-color: var(--acButtonActiveColor) !important;
 }
 
 .button:active {
     transform: scale(0.98);
-    background-color: #606060;
+    background-color: var(--btnActiveColor);
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.themeContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.themeBtn {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition-duration: 0.35s;
+    transition-property: transform;
+}
+
+.themeBtn:hover {
+    transform: scale(1.05);
+}
+
+#redTheme {
+    background: linear-gradient(to right, #c91233 0%,#c91233 50%,#aa0d2a 51%,#aa0d2a 100%);
+}
+
+#yellowTheme {
+    background: linear-gradient(to right, #ffff00 0%,#ffff00 50%,#e0e009 51%,#e0e009 100%);
+}
+
+#greenTheme {
+    background: linear-gradient(to right, #00ff00 0%,#00ff00 50%,#00cc00 51%,#00cc00 100%);
+}
+
+.activeTheme {
+    outline: 2px solid;
 }

@@ -1,5 +1,6 @@
 {
     let buttons = document.getElementsByClassName("button");
+    let themeButtons = document.getElementsByClassName("themeBtn");
     let inputText = document.getElementById("input");
 
     let input = "0";
@@ -141,6 +142,18 @@
         "print": function(number) {
             queue = [];
             inputText.innerHTML = number;
+        }
+    }
+
+    const setTheme = theme => document.documentElement.className = theme;
+
+    for (let i = 0; i < themeButtons.length; i++) {
+        let btnId = themeButtons[i].id;
+        themeButtons[i].onclick = () => {
+            var current = document.getElementsByClassName("activeTheme");
+            current[0].className = current[0].className.replace(" activeTheme", "");
+            themeButtons[i].className += " activeTheme";
+            setTheme(btnId);
         }
     }
 }
