@@ -3,7 +3,7 @@
     let inputText = document.getElementById("input");
 
     let input = "0";
-    let operators = ['÷', 'x', '+', '-'];
+    let operators = ['÷', '×', '+', '-'];
     let actions = ["ac", "="];
     let queue = [];
 
@@ -124,7 +124,7 @@
         "÷": function(x, y) {
             return (x / y);
         },
-        "x": function(x, y) {
+        "×": function(x, y) {
             return (x * y);
         },
         "+": function(x, y) {

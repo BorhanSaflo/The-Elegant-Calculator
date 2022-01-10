@@ -1,3 +1,20 @@
+::-webkit-scrollbar {
+    height: 7px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+  
 body {
     margin: 0px;
     padding: 1rem;
@@ -52,18 +69,18 @@ span {
     box-sizing: border-box;
     height: 75px;
     background-color: #303030;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    direction: rtl;
     color: white;
     text-align: right;
     padding: 5px 20px;
     font-size: 50px;
 }
 
-.numbersRow {
-    max-width: 500px;
-    margin: 10px auto;
-    display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(4, 1fr);
+#input {
+    direction: ltr;
 }
 
 .firstRow {
@@ -72,6 +89,14 @@ span {
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: 3.33fr 1fr;
+}
+
+.numbersRow {
+    max-width: 500px;
+    margin: 10px auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .lastRow {
