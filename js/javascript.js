@@ -2,44 +2,116 @@
     let buttons = document.getElementsByClassName("button");
     let inputText = document.getElementById("input");
 
-    let input = "";
-    let operations = ["divide", "multiply", "add", "minus"];
-    let nonNumberButtons = ["add", "minus", "multiply", "divide", "equals", "ac"];
-    let numpadOperations = ["NumpadAdd", "NumpadSubtract", "NumpadMultiply", "NumpadDivide", "NumpadEnter"];
+    let input = "0";
+    let operators = ['÷', 'x', '+', '-'];
+    let actions = ["ac", "="];
     let queue = [];
-    let clear = () => {
-        inputText.innerHTML = "0";
-    }
 
-    let numberButtonCheck = (btn) => {
-        for (let i = 0; i < nonNumberButtons.length; i++) {
-            if (btn === nonNumberButtons[i]) {
-                if (input !== "") {
-                    queue.push(parseFloat(input));
-                }
-
-                if (btn === "ac") {
-                    calculator.ac();
-                } else if (btn === "equals" && queue.length > 2) {
-                    if (typeof queue[queue.length - 1] !== "number") {
-                        inputText.innerHTML = "Error";
-                        input = ""
-                    } else {
-                        let result = solveQueue();
-                        input = result;
-                        calculator.print(result);
-                    }
-                } else if (input !== "") {
-                    queue.push(String(btn));
-                    input = "";
-                }
-                return false;
+    let checkType = (btn) => {
+        for (let i = 0; i < actions.length; i++) {
+            if (btn === actions[i]) {
+                return "action";
             }
         }
-        if (input === "" && btn === ".") { return false; } else { return true; }
+
+        for (let i = 0; i < operators.length; i++) {
+            if (btn === operators[i]) {
+                return "operator";
+            }
+        }
+            
+        return "num"; 
     }
 
-    function getAllIndexes(array, value) {
+        for (let i = 0; i < buttons.length; i++) {
+            let btn = buttons[i].id;
+            buttons[i].onclick = () => {
+
+                if(checkType(btn)==="action") {
+                    if (btn === "ac") {
+                        calculator.ac();
+                    } 
+        
+                    else if (btn === "=") {
+                        if (checkType(queue[queue.length - 2]) !== "num") {
+                            inputText.innerHTML = "Error";
+                            input = "0"
+                        } 
+                        
+                        else {
+                            let result = solveQueue();
+                            input = result;
+                            calculator.print(result);
+                        }
+                    }
+                }
+
+                else if(checkType(btn)==="operator") {
+                    if (input !== "" && checkType(input[input.length-2])!=="operator") {
+                        if(input[input.length-1]==".") {
+                            input = input.substring(0, input.length - 1) + " ";
+                        }
+                        input += " " + buttons[i].id + " ";
+                        inputText.innerHTML = input;
+                    }
+                }
+
+                else {
+
+                    if (btn === "0" && input === "0") {
+
+                    } 
+
+                    else if (btn === ".") {
+                        if (input.indexOf(".") === -1) {
+                            input += buttons[i].id;
+                            inputText.innerHTML = input;
+                        }
+                        else if (input.lastIndexOf(" ") > -1) {
+                            let temp=input.substring(input.lastIndexOf(" ")-1);
+                            if (checkType(temp[temp.length-2])!=="operator" && temp.indexOf(".") === -1) {
+                                input += buttons[i].id;
+                                inputText.innerHTML = input;
+                            }
+                        }
+                    } 
+
+                    else if (input==="0") {
+                        input = buttons[i].id;
+                        inputText.innerHTML = input;
+                    }
+
+                    else {
+                        input += buttons[i].id;
+                        inputText.innerHTML = input;
+                    }
+                }
+            }
+        }
+
+    let solveQueue = () => {
+        queue=splitInput(input);
+        if (queue.length > 1) {
+            for (let i = 0; i < operators.length; i++) {
+                let currentOperationArray = getAllIndexes(queue, operators[i]);
+                while (currentOperationArray.length > 0) {
+                    let currentValue = calculator[operators[i]](parseFloat(queue[currentOperationArray[0] - 1]), parseFloat(queue[currentOperationArray[0] + 1]));
+                    queue.splice(currentOperationArray[0] - 1, 3, currentValue);
+                    currentOperationArray = getAllIndexes(queue, operators[i]);
+                }
+            }
+        }
+        return queue[0];
+    }
+
+    let splitInput = (string) => {
+        let arr=[];
+        const reg=new RegExp('(?=[\\' + operators.join(',\\') + '])|(?<=[\\' + operators.join(',\\') + '])', "g");
+        arr=string.replace(/ /g, '').split(reg);
+        return arr;
+    }
+
+    let getAllIndexes = (array, value) => {
         let indexes = [],
             i = -1;
         while ((i = array.indexOf(value, i + 1)) != -1) {
@@ -48,99 +120,27 @@
         return indexes;
     }
 
-    let solveQueue = () => {
-        if (queue.length > 1) {
-            for (let i = 0; i < operations.length; i++) {
-                let currentOperationArray = getAllIndexes(queue, operations[i]);
-                while (currentOperationArray.length > 0) {
-                    let currentValue = calculator[operations[i]](queue[currentOperationArray[0] - 1], queue[currentOperationArray[0] + 1]);
-                    queue.splice(currentOperationArray[0] - 1, 3, currentValue);
-                    currentOperationArray = getAllIndexes(queue, operations[i]);
-                }
-            }
-        }
-        return queue[0];
-    }
-
     let calculator = {
-        divide: function(x, y) {
+        "÷": function(x, y) {
             return (x / y);
         },
-        multiply: function(x, y) {
+        "x": function(x, y) {
             return (x * y);
         },
-        add: function(x, y) {
+        "+": function(x, y) {
             return (x + y);
         },
-        minus: function(x, y) {
+        "-": function(x, y) {
             return (x - y);
         },
-        ac: function() {
-            input = "";
-            input1 = "";
-            queue = [];
+        "ac": function() {
+            input = "0";
             inputText.innerHTML = "0";
+            queue = [];
         },
-        print: function(number) {
+        "print": function(number) {
             queue = [];
             inputText.innerHTML = number;
         }
     }
-
-    for (let i = 0; i < buttons.length; i++) {
-        let btnId = buttons[i].id;
-        buttons[i].onclick = () => {
-            if (numberButtonCheck(btnId)) {
-                if (btnId === ".") {
-                    if ((String(input).split(".").length - 1) === 0) {
-                        input += buttons[i].id;
-                        inputText.innerHTML = input;
-                    }
-                } else if (btnId === "0" && input === "") {} else {
-                    input += buttons[i].id;
-                    inputText.innerHTML = input;
-                }
-            }
-        }
-
-        window.addEventListener("keydown", function(event) {
-            if (event.code === "Numpad" + btnId) {
-                document.getElementById(btnId).click();
-                document.getElementById(btnId).classList.add("active");
-            }
-
-            if (event.code === "NumpadDecimal") {
-                if (!document.getElementById(".").classList.contains("active")) {
-                    document.getElementById(".").click();
-                    document.getElementById(".").classList.add("active");
-                }
-            }
-
-            for (let i = 0; i < numpadOperations.length; i++) {
-                if (event.code === numpadOperations[i]) {
-                    if (!document.getElementById(nonNumberButtons[i]).classList.contains("operationButtonActive")) {
-                        document.getElementById(nonNumberButtons[i]).click();
-                        document.getElementById(nonNumberButtons[i]).classList.add("operationButtonActive");
-                    }
-                }
-            }
-        });
-
-        window.addEventListener("keyup", function(event) {
-            if (event.code === "Numpad" + btnId) {
-                document.getElementById(btnId).classList.remove("active");
-            }
-
-            if (event.code === "NumpadDecimal") {
-                document.getElementById(".").classList.remove("active");
-            }
-
-            for (let i = 0; i < numpadOperations.length; i++) {
-                if (event.code === numpadOperations[i]) {
-                    document.getElementById(nonNumberButtons[i]).classList.remove("operationButtonActive");
-                }
-            }
-        });
-    }
-
 }

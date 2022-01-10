@@ -1,4 +1,4 @@
 # Javascript Calculator
-A simple calculator made with javascript.  
+A fully functional calculator made with JavaScript.
 
-<img width="486" alt="Calculator" src="https://user-images.githubusercontent.com/60056206/130312584-486ac2fd-df14-4355-b34f-755b3b497a71.png">
+![JS Calculator](https://user-images.githubusercontent.com/60056206/148714812-be435817-638a-428d-8e02-b17a977d9fa4.png)

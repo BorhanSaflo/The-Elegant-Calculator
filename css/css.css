@@ -86,7 +86,8 @@ span {
     padding: 1rem;
     height: 4rem;
     line-height: 4rem;
-    background-color: #7a7979;
+    background-color: #6d6d6d;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     border-radius: 10px;
 }
@@ -96,31 +97,19 @@ span {
 }
 
 .acButton {
-    background-color: #545454;
+    background-color: #494949;
 }
 
 .operationButton:active {
-    background-color: #ed123a !important;
-}
-
-.operationButtonActive {
-    background-color: #ed123a !important;
+    background-color: #c91233 !important;
 }
 
 .acButton:active {
-    background-color: #494949 !important;
-}
-
-.acButtonActive {
-    background-color: #494949 !important;
+    background-color: #3f3f3f !important;
 }
 
 .button:active {
     transform: scale(0.98);
-    background-color: #6b6b6b;
-}
-
-.active {
-    transform: scale(0.98);
-    background-color: #6b6b6b;
+    background-color: #606060;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
