@@ -5,8 +5,9 @@
 
     let input = "0";
     let operators = ['÷', '×', '+', '-'];
+    let other = ['(',')'];
     let regFilter = ['(',')','÷', '×', '+', '-'];
-    let actions = ["ac", "="];
+    let actions = ["clear", "="];
     let result=0;
 
     let checkType = (btn) => {
@@ -21,6 +22,12 @@
                 return "operator";
             }
         }
+
+        for (let i = 0; i < other.length; i++) {
+            if(btn === other[i]) {
+                return "other";
+            }
+        }
             
         return "num"; 
     }
@@ -30,8 +37,8 @@
         buttons[i].onclick = () => {
 
             if(checkType(btn)==="action") {
-                if (btn === "ac") {
-                    calculator.ac();
+                if (btn === "clear") {
+                    calculator.clear();
                 } 
     
                 else if (btn === "=") {
@@ -58,13 +65,28 @@
                 }
             }
 
+            else if(checkType(btn)==="other") {
+                if(btn===")") {
+                    let openBracketsCount=input.split('(').length-1;
+                    let closeBracketsCount=input.split(')').length-1;
+                    if(openBracketsCount-closeBracketsCount<1) {
+                        return;
+                    }
+
+                }
+                if (input==="0") {
+                    input = buttons[i].id;
+                    inputText.innerHTML = input;
+                }
+
+                else {
+                    input += buttons[i].id;
+                    inputText.innerHTML = input;
+                }
+            }
+
             else {
-
-                if (btn === "0" && input === "0") {
-
-                } 
-
-                else if (btn === ".") {
+                if (btn === ".") {
                     if (input.indexOf(".") === -1) {
                         input += buttons[i].id;
                         inputText.innerHTML = input;
@@ -95,7 +117,23 @@
         let arr=[];
         const reg=new RegExp('(?=[\\' + regFilter.join(',\\') + '])|(?<=[\\' + regFilter.join(',\\') + '])', "g");
         arr=string.replace(/ /g, '').split(reg);
-        return arr;
+        return addMissingOperators(arr);
+    }
+
+    let addMissingOperators = (array) => {
+        for(let i=1; i<array.length-1;i++) {
+            if(array[i]==="(" && checkType(array[i-1])!=="operator"&&array[i-1]!=="(") {
+                array.splice(i,0,"×");
+            }
+        }
+        let openBracketsCount=input.split('(').length-1;
+        let closeBracketsCount=input.split(')').length-1;
+        if(openBracketsCount>closeBracketsCount) {
+            for(let i=0;i<openBracketsCount-closeBracketsCount;i++) {
+                array.push(")");
+            }
+        }
+        return array;
     }
 
     let solveInput = (queue) => {
@@ -152,7 +190,7 @@
         "-": function(x, y) {
             return (x - y);
         },
-        "ac": function() {
+        "clear": function() {
             input = "0";
             inputText.innerHTML = "0";
             q = [];
