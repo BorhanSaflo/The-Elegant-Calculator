@@ -11,6 +11,10 @@
     let result=0;
 
     let checkType = (btn) => {
+        if(btn===" ") {
+            return "space";
+        }
+
         for (let i = 0; i < actions.length; i++) {
             if (btn === actions[i]) {
                 return "action";
@@ -42,7 +46,7 @@
                 } 
     
                 else if (btn === "=") {
-                    if (checkType(input[input.length - 2]) !== "num") {
+                    if (checkType(input[input.length - 1]) === "space") {
                         inputText.innerHTML = "Error";
                         input = "0"
                     } 
@@ -56,7 +60,7 @@
             }
 
             else if(checkType(btn)==="operator") {
-                if (input !== "" && checkType(input[input.length-2])!=="operator") {
+                if (input !== "0" && checkType(input[input.length-2])!=="operator") {
                     if(input[input.length-1]==".") {
                         input = input.substring(0, input.length - 1) + " ";
                     }
@@ -72,7 +76,6 @@
                     if(openBracketsCount-closeBracketsCount<1) {
                         return;
                     }
-
                 }
                 if (input==="0") {
                     input = buttons[i].id;
@@ -80,6 +83,11 @@
                 }
 
                 else {
+                    if(btn==="(") {
+                        if(checkType(input[input.length-1])==="num" || input[input.length-1]===")") {
+                            input+="×";
+                        }
+                    }
                     input += buttons[i].id;
                     inputText.innerHTML = input;
                 }
@@ -106,6 +114,9 @@
                 }
 
                 else {
+                    if(input[input.length-1]===")") {
+                        input+="×";
+                    }
                     input += buttons[i].id;
                     inputText.innerHTML = input;
                 }
@@ -117,15 +128,10 @@
         let arr=[];
         const reg=new RegExp('(?=[\\' + regFilter.join(',\\') + '])|(?<=[\\' + regFilter.join(',\\') + '])', "g");
         arr=string.replace(/ /g, '').split(reg);
-        return addMissingOperators(arr);
+        return addMissingBrackets(arr);
     }
 
-    let addMissingOperators = (array) => {
-        for(let i=1; i<array.length-1;i++) {
-            if(array[i]==="(" && checkType(array[i-1])!=="operator"&&array[i-1]!=="(") {
-                array.splice(i,0,"×");
-            }
-        }
+    let addMissingBrackets = (array) => {
         let openBracketsCount=input.split('(').length-1;
         let closeBracketsCount=input.split(')').length-1;
         if(openBracketsCount>closeBracketsCount) {
