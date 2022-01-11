@@ -7,7 +7,7 @@
     let operators = ['÷', '×', '+', '-'];
     let other = ['(',')','π','e'];
     let regFilter = ['(',')','÷', '×', '+', '-'];
-    let actions = ["clear", "="];
+    let actions = ["clear", "=", "erase"];
     let result=0;
 
     let checkType = (btn) => {
@@ -56,6 +56,10 @@
                         input = result;
                         calculator.print(result);
                     }
+                }
+
+                else if (btn === "erase") {
+                    calculator.erase();
                 }
             }
 
@@ -202,6 +206,21 @@
             input = "0";
             inputText.innerHTML = "0";
             q = [];
+        },
+        "erase": function() {
+            if(input.length>1) {
+                if(checkType(input[input.length-1]) === "space") {
+                    input=input.slice(0, -3);
+                }
+                else {
+                    input=input.slice(0, -1);
+                }
+                inputText.innerHTML = input;
+            }
+            else {
+                input = "0";
+                inputText.innerHTML = "0";
+            }
         },
         "print": function(number) {
             q = [];
