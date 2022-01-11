@@ -5,8 +5,9 @@
 
     let input = "0";
     let operators = ['÷', '×', '+', '-'];
+    let regFilter = ['(',')','÷', '×', '+', '-'];
     let actions = ["ac", "="];
-    let queue = [];
+    let result=0;
 
     let checkType = (btn) => {
         for (let i = 0; i < actions.length; i++) {
@@ -24,92 +25,109 @@
         return "num"; 
     }
 
-        for (let i = 0; i < buttons.length; i++) {
-            let btn = buttons[i].id;
-            buttons[i].onclick = () => {
+    for (let i = 0; i < buttons.length; i++) {
+        let btn = buttons[i].id;
+        buttons[i].onclick = () => {
 
-                if(checkType(btn)==="action") {
-                    if (btn === "ac") {
-                        calculator.ac();
+            if(checkType(btn)==="action") {
+                if (btn === "ac") {
+                    calculator.ac();
+                } 
+    
+                else if (btn === "=") {
+                    if (checkType(input[input.length - 2]) !== "num") {
+                        inputText.innerHTML = "Error";
+                        input = "0"
                     } 
-        
-                    else if (btn === "=") {
-                        if (checkType(queue[queue.length - 2]) !== "num") {
-                            inputText.innerHTML = "Error";
-                            input = "0"
-                        } 
-                        
-                        else {
-                            let result = solveQueue();
-                            input = result;
-                            calculator.print(result);
-                        }
-                    }
-                }
-
-                else if(checkType(btn)==="operator") {
-                    if (input !== "" && checkType(input[input.length-2])!=="operator") {
-                        if(input[input.length-1]==".") {
-                            input = input.substring(0, input.length - 1) + " ";
-                        }
-                        input += " " + buttons[i].id + " ";
-                        inputText.innerHTML = input;
-                    }
-                }
-
-                else {
-
-                    if (btn === "0" && input === "0") {
-
-                    } 
-
-                    else if (btn === ".") {
-                        if (input.indexOf(".") === -1) {
-                            input += buttons[i].id;
-                            inputText.innerHTML = input;
-                        }
-                        else if (input.lastIndexOf(" ") > -1) {
-                            let temp=input.substring(input.lastIndexOf(" ")-1);
-                            if (checkType(temp[temp.length-2])!=="operator" && temp.indexOf(".") === -1) {
-                                input += buttons[i].id;
-                                inputText.innerHTML = input;
-                            }
-                        }
-                    } 
-
-                    else if (input==="0") {
-                        input = buttons[i].id;
-                        inputText.innerHTML = input;
-                    }
-
+                    
                     else {
+                        result = solveInput(splitInput(input));
+                        input = result;
+                        calculator.print(result);
+                    }
+                }
+            }
+
+            else if(checkType(btn)==="operator") {
+                if (input !== "" && checkType(input[input.length-2])!=="operator") {
+                    if(input[input.length-1]==".") {
+                        input = input.substring(0, input.length - 1) + " ";
+                    }
+                    input += " " + buttons[i].id + " ";
+                    inputText.innerHTML = input;
+                }
+            }
+
+            else {
+
+                if (btn === "0" && input === "0") {
+
+                } 
+
+                else if (btn === ".") {
+                    if (input.indexOf(".") === -1) {
                         input += buttons[i].id;
                         inputText.innerHTML = input;
                     }
-                }
-            }
-        }
+                    else if (input.lastIndexOf(" ") > -1) {
+                        let temp=input.substring(input.lastIndexOf(" ")-1);
+                        if (checkType(temp[temp.length-2])!=="operator" && temp.indexOf(".") === -1) {
+                            input += buttons[i].id;
+                            inputText.innerHTML = input;
+                        }
+                    }
+                } 
 
-    let solveQueue = () => {
-        queue=splitInput(input);
-        if (queue.length > 1) {
-            for (let i = 0; i < operators.length; i++) {
-                let currentOperationArray = getAllIndexes(queue, operators[i]);
-                while (currentOperationArray.length > 0) {
-                    let currentValue = calculator[operators[i]](parseFloat(queue[currentOperationArray[0] - 1]), parseFloat(queue[currentOperationArray[0] + 1]));
-                    queue.splice(currentOperationArray[0] - 1, 3, currentValue);
-                    currentOperationArray = getAllIndexes(queue, operators[i]);
+                else if (input==="0") {
+                    input = buttons[i].id;
+                    inputText.innerHTML = input;
+                }
+
+                else {
+                    input += buttons[i].id;
+                    inputText.innerHTML = input;
                 }
             }
         }
-        return queue[0];
     }
 
     let splitInput = (string) => {
         let arr=[];
-        const reg=new RegExp('(?=[\\' + operators.join(',\\') + '])|(?<=[\\' + operators.join(',\\') + '])', "g");
+        const reg=new RegExp('(?=[\\' + regFilter.join(',\\') + '])|(?<=[\\' + regFilter.join(',\\') + '])', "g");
         arr=string.replace(/ /g, '').split(reg);
         return arr;
+    }
+
+    let solveInput = (queue) => {
+        while(queue.indexOf(')')>-1) {
+            let closeBracketPosition=queue.indexOf(')');
+            let openBracketPosition=queue.indexOf('(');
+
+            let openBracketPositions=getAllIndexes(queue,'(');
+            for(let i=openBracketPositions.length-1; i>0; i--) {
+                if(openBracketPositions[i]<closeBracketPosition) {
+                    openBracketPosition=openBracketPositions[i];
+                    break;
+                }
+            }
+    
+            let smallerQueue=queue.slice(openBracketPosition+1, closeBracketPosition);
+            let numOfElementsInside=closeBracketPosition-openBracketPosition-1;
+            queue.splice(openBracketPosition,numOfElementsInside+2,solveInput(smallerQueue));
+        }
+        return solveBedmas(queue);
+    }
+
+    let solveBedmas = (array) => {
+        for (let i = 0; i < operators.length; i++) {
+            let currentOperationArray = getAllIndexes(array, operators[i]);
+            while (currentOperationArray.length > 0) {
+                let currentValue = calculator[operators[i]](parseFloat(array[currentOperationArray[0] - 1]), parseFloat(array[currentOperationArray[0] + 1]));
+                array.splice(currentOperationArray[0] - 1, 3, currentValue);
+                currentOperationArray = getAllIndexes(array, operators[i]);
+            }
+        }
+        return array[0];
     }
 
     let getAllIndexes = (array, value) => {
@@ -137,10 +155,10 @@
         "ac": function() {
             input = "0";
             inputText.innerHTML = "0";
-            queue = [];
+            q = [];
         },
         "print": function(number) {
-            queue = [];
+            q = [];
             inputText.innerHTML = number;
         }
     }
