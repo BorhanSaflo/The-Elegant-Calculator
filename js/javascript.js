@@ -115,10 +115,10 @@
             let numOfElementsInside=closeBracketPosition-openBracketPosition-1;
             queue.splice(openBracketPosition,numOfElementsInside+2,solveInput(smallerQueue));
         }
-        return solveBedmas(queue);
+        return compute(queue);
     }
 
-    let solveBedmas = (array) => {
+    let compute = (array) => {
         for (let i = 0; i < operators.length; i++) {
             let currentOperationArray = getAllIndexes(array, operators[i]);
             while (currentOperationArray.length > 0) {
