@@ -5,7 +5,7 @@
 
     let input = "0";
     let operators = ['÷', '×', '+', '-'];
-    let other = ['(',')'];
+    let other = ['(',')','π','e'];
     let regFilter = ['(',')','÷', '×', '+', '-'];
     let actions = ["clear", "="];
     let result=0;
@@ -83,8 +83,8 @@
                 }
 
                 else {
-                    if(btn==="(") {
-                        if(checkType(input[input.length-1])==="num" || input[input.length-1]===")") {
+                    if(btn==="(" || btn==="π" || btn==="e") {
+                        if(checkType(input[input.length-1])==="num" || input[input.length-1]===")" || input[input.length-1]==="π" || input[input.length-1]==="e") {
                             input+="×";
                         }
                     }
@@ -114,7 +114,7 @@
                 }
 
                 else {
-                    if(input[input.length-1]===")") {
+                    if(input[input.length-1]===")" || input[input.length-1]==="π" || input[input.length-1]==="e") {
                         input+="×";
                     }
                     input += buttons[i].id;
@@ -127,6 +127,8 @@
     let splitInput = (string) => {
         let arr=[];
         const reg=new RegExp('(?=[\\' + regFilter.join(',\\') + '])|(?<=[\\' + regFilter.join(',\\') + '])', "g");
+        string=string.replaceAll("π",3.141);
+        string=string.replaceAll("e",2.718);
         arr=string.replace(/ /g, '').split(reg);
         return addMissingBrackets(arr);
     }

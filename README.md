@@ -1,6 +1,8 @@
 # The Elegant Calculator
 The Elegant Calculator is a fully functional stylish calculator made with JavaScript.
 
+Live Demo: https://elegantcalc.cf
+
 ![The Elegant Calculator - Red](https://user-images.githubusercontent.com/60056206/148743639-87bd3346-f178-4fde-a9c3-423668ae26bf.png)
 ![The Elegant Calculator - Orange](https://user-images.githubusercontent.com/60056206/148743652-23162f1e-c89f-42c5-bb74-096e3f72f99e.png)
 ![The Elegant Calculator - Yellow](https://user-images.githubusercontent.com/60056206/148743660-87a9a1b0-3550-4a1a-b718-24a486947ced.png)
