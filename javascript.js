@@ -4,10 +4,10 @@
     let inputText = document.getElementById("input");
 
     let input = "0";
-    let operators = ['÷', '×', '+', '-'];
-    let other = ['(',')','π','e'];
-    let regFilter = ['(',')','÷', '×', '+', '-'];
-    let actions = ["clear", "=", "erase"];
+    let operators = ['^','÷', '×', '+', '-'];
+    let other = ['(',')','π','e','²'];
+    let regFilter = ['(',')','q','^','÷', '×', '+', '-'];
+    let actions = ["clear", "=", "erase", "negate"];
     let result=0;
 
     let checkType = (btn) => {
@@ -43,7 +43,23 @@
             if(checkType(btn)==="action") {
                 if (btn === "clear") {
                     calculator.clear();
-                } 
+                }
+                
+                // else if (btn === "negate" && input!=="0" && checkType(input[input.length-1])==="num") {
+                //     let i=input.length-1;
+                //     while(i>1) {
+                //         console.log(i);
+                //         if(checkType(input[i])!=="num") {
+                //             break;
+                //         }
+                //         i--;
+                //     }
+                //     console.log("where to cut: " + input.slice(i+1,input.length));
+                //     let numToNegate=input.slice(i+1,input.length);
+                //     console.log("num to negate: " + numToNegate);
+                //     input = input.slice(0,i) + parseFloat(numToNegate) * -1;
+                //     inputText.innerHTML=input;
+                // }
     
                 else if (btn === "=") {
                     if (checkType(input[input.length - 1]) === "space") {
@@ -88,9 +104,12 @@
 
                 else {
                     if(btn==="(" || btn==="π" || btn==="e") {
-                        if(checkType(input[input.length-1])==="num" || input[input.length-1]===")" || input[input.length-1]==="π" || input[input.length-1]==="e") {
+                        if(checkType(input[input.length-1])==="num" || input[input.length-1]===")" || input[input.length-1]==="π" || input[input.length-1]==="e" || input[input.length-1]==="²") {
                             input+="×";
                         }
+                    }
+                    if(btn==="²" && checkType(input[input.length-1])!=="num") {
+                        return;
                     }
                     input += buttons[i].id;
                     inputText.innerHTML = input;
@@ -118,7 +137,7 @@
                 }
 
                 else {
-                    if(input[input.length-1]===")" || input[input.length-1]==="π" || input[input.length-1]==="e") {
+                    if(input[input.length-1]===")" || input[input.length-1]==="π" || input[input.length-1]==="e" || input[input.length-1]==="²") {
                         input+="×";
                     }
                     input += buttons[i].id;
@@ -129,11 +148,11 @@
     }
 
     let splitInput = (string) => {
-        let arr=[];
-        const reg=new RegExp('(?=[\\' + regFilter.join(',\\') + '])|(?<=[\\' + regFilter.join(',\\') + '])', "g");
         string=string.replaceAll("π",3.141);
         string=string.replaceAll("e",2.718);
-        arr=string.replace(/ /g, '').split(reg);
+        string=string.replaceAll("²","q");
+        const reg=new RegExp('(?=[\\' + regFilter.join(',\\') + '])|(?<=[\\' + regFilter.join(',\\') + '])', "g");
+        let arr=string.replace(/ /g, '').split(reg);
         return addMissingBrackets(arr);
     }
 
@@ -149,6 +168,11 @@
     }
 
     let solveInput = (queue) => {
+        for(let i=0; i<queue.length;i++) {
+            if(queue[i]==='q') {
+                queue.splice(i-1,2,Math.pow(queue[i-1],2));
+            }
+        }
         while(queue.indexOf(')')>-1) {
             let closeBracketPosition=queue.indexOf(')');
             let openBracketPosition=queue.indexOf('(');
@@ -190,6 +214,9 @@
     }
 
     let calculator = {
+        "^": function(x,y) {
+            return (Math.pow(x,y));
+        },
         "÷": function(x, y) {
             return (x / y);
         },
