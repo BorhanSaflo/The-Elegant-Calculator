@@ -4,8 +4,10 @@
   --btnActiveColor: #606060;
   --operationButton: #dc143c;
   --operationActiveButton: #c91233;
-  --acButtonColor: #494949;
-  --acButtonActiveColor: #3f3f3f;
+  --extraButtonColor: #535353;
+  --extraButtonActiveColor: #4e4e4e;
+  --cButtonColor: #3a3a3a;
+  --cButtonActiveColor: #383838;
   --calcBodyColor: #aa0d2a;
   --textColor: #ffffff;
 }
@@ -15,8 +17,10 @@
     --btnActiveColor: #cecece;
     --operationButton: #ffa500;
     --operationActiveButton: #e79600;
-    --acButtonColor: #b6b6b6;
-    --acButtonActiveColor: #acacac;
+    --extraButtonColor: #a3a3a3;
+    --extraButtonActiveColor: #9c9c9c;
+    --cButtonColor: #696969;
+    --cButtonActiveColor: #616060;
     --calcBodyColor: #d18800;
     --textColor: #000000;
 }
@@ -26,8 +30,10 @@
     --btnActiveColor: #c4c3c3;
   --operationButton: #ffff00;
   --operationActiveButton: #c91233;
-  --acButtonColor: #b6b6b6;
-  --acButtonActiveColor: #acacac;
+  --extraButtonColor: #a3a3a3;
+  --extraButtonActiveColor: #9c9c9c;
+  --cButtonColor: #696969;
+  --cButtonActiveColor: #616060;
   --calcBodyColor: #e0e009;
   --textColor: #000000;
 }
@@ -37,8 +43,10 @@
     --btnActiveColor: #cecece;
     --operationButton: #00ff00;
     --operationActiveButton: #c91233;
-    --acButtonColor: #aaaaaa;
-    --acButtonActiveColor: #9b9b9b;
+    --extraButtonColor: #a3a3a3;
+    --extraButtonActiveColor: #9c9c9c;
+    --cButtonColor: #696969;
+    --cButtonActiveColor: #616060;
     --calcBodyColor: #00bb00;
     --textColor: #000000;
 }
@@ -48,8 +56,10 @@
     --btnActiveColor: #606060;
     --operationButton: #005ae2;
     --operationActiveButton: #0058db;
-    --acButtonColor: #494949;
-    --acButtonActiveColor: #3f3f3f;
+    --extraButtonColor: #535353;
+    --extraButtonActiveColor: #4e4e4e;
+    --cButtonColor: #3a3a3a;
+    --cButtonActiveColor: #383838;
     --calcBodyColor: #00398f;
     --textColor: #ffffff;
 }
@@ -59,8 +69,10 @@
     --btnActiveColor: #cecece;
     --operationButton: #ffc0cb;
     --operationActiveButton: #d6a2aa;
-    --acButtonColor: #aaaaaa;
-    --acButtonActiveColor: #9b9b9b;
+    --extraButtonColor: #c5c5c5;
+    --extraButtonActiveColor: #bebebe;
+    --cButtonColor: #8a8a8a;
+    --cButtonActiveColor: #838383;
     --calcBodyColor: #e696a4;
     --textColor: #000000;
 }
@@ -182,26 +194,36 @@ span {
     border-radius: 10px;
 }
 
-.operationButton {
-    background-color: var(--operationButton);
+.button:active {
+    transform: scale(0.97);
+    background-color: var(--btnActiveColor);
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
 
-.acButton {
-    background-color: var(--acButtonColor);
+
+.operationButton {
+    background-color: var(--operationButton);
 }
 
 .operationButton:active {
     background-color: var(--operationActiveButton) !important;
 }
 
-.acButton:active {
-    background-color: var(--acButtonActiveColor) !important;
+.cButton {
+    background-color: var(--cButtonColor);
 }
 
-.button:active {
-    transform: scale(0.97);
-    background-color: var(--btnActiveColor);
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+.cButton:active {
+    background-color: var(--cButtonActiveColor) !important;
+}
+
+
+.extraButton {
+    background-color: var(--extraButtonColor);
+}
+
+.extraButton:active {
+    background-color: var(--extraButtonActiveColor);
 }
 
 .themesRow {
